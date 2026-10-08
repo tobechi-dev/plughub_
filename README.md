@@ -2,6 +2,8 @@
 
 > An open registry and CLI for pluggable backend services. Add auth, email, storage, and jobs to any app — contract-first, self-hosted, no lock-in.
 
+The **CLI** is called **`backkit`**
+
 [![CI](https://github.com/tobechi-dev/plughub_/actions/workflows/ci.yml/badge.svg)](https://github.com/tobechi-dev/plughub_/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
