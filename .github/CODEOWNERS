@@ -1,0 +1,15 @@
+# Default owner for everything in the repo
+*                       @tobechi-dev
+
+# CI and repository configuration
+/.github/               @tobechi-dev
+
+# Security-sensitive files
+/SECURITY.md            @tobechi-dev
+
+# Core packages — the foundation everything depends on
+/packages/core/         @tobechi-dev
+/packages/contracts/    @tobechi-dev
+
+# Service registry — service manifests and provider adapters
+/registry/              @tobechi-dev

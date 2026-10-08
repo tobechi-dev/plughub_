@@ -1,0 +1,45 @@
+name: New capability or provider
+description: Propose a new backend capability or a provider for an existing one.
+labels: ["feature", "needs-triage"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you proposing?
+      options:
+        - A new capability (e.g., "payments")
+        - A new provider for an existing capability
+    validations:
+      required: true
+  - type: input
+    id: capability
+    attributes:
+      label: Capability name
+      placeholder: "payments"
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Proposed contract
+      description: What operations does this capability expose? What does a consumer call?
+      placeholder: |
+        - charge(amount, currency)
+        - refund(chargeId)
+        - onPaymentSucceeded -> event
+    validations:
+      required: true
+  - type: textarea
+    id: providers
+    attributes:
+      label: Candidate providers
+      description: Self-hosted or managed options.
+    validations:
+      required: true
+  - type: textarea
+    id: prior-art
+    attributes:
+      label: Prior art
+      description: How do Supabase, Stripe, or others solve this? What's different here?
+    validations:
+      required: false

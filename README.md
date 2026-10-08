@@ -2,7 +2,7 @@
 
 > An open registry and CLI for pluggable backend services. Add auth, email, storage, and jobs to any app — contract-first, self-hosted, no lock-in.
 
-[![CI](https://github.com/<you>/backkit/actions/workflows/ci.yml/badge.svg)](https://github.com/<you>/backkit/actions/workflows/ci.yml)
+[![CI](https://github.com/tobechi-dev/plughub_/actions/workflows/ci.yml/badge.svg)](https://github.com/tobechi-dev/plughub_/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
@@ -18,3 +18,4 @@ You own the code. You can run it locally, self-host it, or swap in a managed pro
 npx backkit init
 npx backkit add email
 npx backkit up
+```
