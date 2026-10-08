@@ -22,19 +22,17 @@ jobs:
           fetch-depth: 0
 
       - uses: pnpm/action-setup@v6
-        with:
 
       - uses: actions/setup-node@v6
         with:
           node-version: 20
-          cache: pnpm
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Create Release PR or Publish
-        uses: changesets/action@v2
+        uses: changesets/action@v1
         with:
           publish: pnpm release
           version: pnpm version-packages
@@ -42,4 +40,3 @@ jobs:
           title: "chore: release packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
