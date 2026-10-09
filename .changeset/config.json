@@ -6,7 +6,7 @@
   "changelog": [
     "@changesets/changelog-github",
     {
-      "repo": "https://github.com/tobechi-dev/plughub_.git"
+      "repo": "tobechi-dev/plughub_"
     }
   ],
   "commit": false,
