@@ -1,5 +1,11 @@
 # @plughub/core
 
+## 0.1.1
+
+### Patch Changes
+
+- [#27](https://github.com/tobechi-dev/plughub_/pull/27) [`a6022ec`](https://github.com/tobechi-dev/plughub_/commit/a6022ececd8131dd3254d7f2d010d9302d71043c) Thanks [@tobechi-dev](https://github.com/tobechi-dev)! - Add registry validation tests for capability contracts
+
 ## 0.1.0
 
 ### Minor Changes
