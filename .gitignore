@@ -7,6 +7,6 @@ dist/
 .env.local
 
 # Core dumps
-core
+core/core/
 core.*
 *.core

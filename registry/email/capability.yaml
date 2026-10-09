@@ -1,0 +1,17 @@
+schemaVersion: "1"
+kind: capability
+id: email
+version: 0.1.0
+name: Email
+description: Send transactional emails from your application.
+status: experimental
+contracts:
+  - type: openapi
+    path: ./openapi.yaml
+exports:
+  - name: sendEmail
+    description: Send a single transactional email.
+    signature: "(input: SendEmailInput) => Promise<SendEmailResult>"
+tags:
+  - communication
+  - transactional
