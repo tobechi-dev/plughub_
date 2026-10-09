@@ -34,5 +34,9 @@ config:
     description: Use TLS on connect.
     default: false
 deploy:
-  type: docker
-  compose: ./docker-compose.yml
+  type: process
+  notes: |
+    Runs as a Node process. The bundled compose file starts a local
+    Mailpit instance for development only — production SMTP servers
+    are external.
+contractTest: ./tests/contract.test.ts

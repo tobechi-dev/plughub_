@@ -1,5 +1,6 @@
 packages:
   - "apps/*"
   - "packages/*"
+  - "registry/*/providers/*"
   - "examples/*"
   - "tooling/*"
