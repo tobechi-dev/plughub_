@@ -1,0 +1,53 @@
+asyncapi: 2.6.0
+
+info:
+  title: Email Capability Events
+  version: 0.1.0
+  description: |
+    Delivery lifecycle events emitted by email providers.
+
+    Providers must emit `email.sent` and `email.delivered` at minimum.
+    `email.bounced` and `email.complained` are required for production
+    use, since consumers need them to maintain list hygiene.
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+defaultContentType: application/json
+
+channels:
+  email.sent:
+    description: Emitted when a provider accepts an email for delivery.
+    subscribe:
+      operationId: onEmailSent
+      message:
+        name: EmailSent
+        payload:
+          $ref: './schemas.yaml#/$defs/EmailEvent'
+
+  email.delivered:
+    description: Emitted when the receiving server accepts the email.
+    subscribe:
+      operationId: onEmailDelivered
+      message:
+        name: EmailDelivered
+        payload:
+          $ref: './schemas.yaml#/$defs/EmailEvent'
+
+  email.bounced:
+    description: Emitted when the receiving server rejects the email.
+    subscribe:
+      operationId: onEmailBounced
+      message:
+        name: EmailBounced
+        payload:
+          $ref: './schemas.yaml#/$defs/EmailEvent'
+
+  email.complained:
+    description: Emitted when a recipient marks the email as spam.
+    subscribe:
+      operationId: onEmailComplained
+      message:
+        name: EmailComplained
+        payload:
+          $ref: './schemas.yaml#/$defs/EmailEvent'
