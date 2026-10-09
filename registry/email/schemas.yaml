@@ -1,0 +1,131 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+
+$defs:
+  EmailAddress:
+    type: object
+    required: [address]
+    properties:
+      address:
+        type: string
+        format: email
+      name:
+        type: string
+
+  Attachment:
+    type: object
+    required: [filename, contentType, content]
+    properties:
+      filename:
+        type: string
+      contentType:
+        type: string
+      content:
+        type: string
+        description: Base64-encoded file content
+      contentId:
+        type: string
+        description: Optional CID for inline attachments
+
+  EmailStatus:
+    type: string
+    enum: [queued, sent, delivered, bounced, complained, failed]
+
+  SendEmailInput:
+    type: object
+    required: [from, to, subject]
+    properties:
+      from:
+        $ref: '#/$defs/EmailAddress'
+      to:
+        type: array
+        items:
+          $ref: '#/$defs/EmailAddress'
+        minItems: 1
+      cc:
+        type: array
+        items:
+          $ref: '#/$defs/EmailAddress'
+      bcc:
+        type: array
+        items:
+          $ref: '#/$defs/EmailAddress'
+      replyTo:
+        $ref: '#/$defs/EmailAddress'
+      subject:
+        type: string
+        minLength: 1
+      text:
+        type: string
+      html:
+        type: string
+      headers:
+        type: object
+        additionalProperties:
+          type: string
+      attachments:
+        type: array
+        items:
+          $ref: '#/$defs/Attachment'
+      tags:
+        type: array
+        items:
+          type: string
+        description: Free-form tags for tracking and analytics
+
+  SendEmailResult:
+    type: object
+    required: [id, status, createdAt]
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/$defs/EmailStatus'
+      createdAt:
+        type: string
+        format: date-time
+
+  EmailRecord:
+    allOf:
+      - $ref: '#/$defs/SendEmailResult'
+      - type: object
+        properties:
+          updatedAt:
+            type: string
+            format: date-time
+          error:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+
+  EmailEvent:
+    type: object
+    required: [type, data, occurredAt]
+    properties:
+      type:
+        type: string
+        enum:
+          - email.sent
+          - email.delivered
+          - email.bounced
+          - email.complained
+      data:
+        $ref: '#/$defs/EmailRecord'
+      occurredAt:
+        type: string
+        format: date-time
+
+  Error:
+    type: object
+    required: [error]
+    properties:
+      error:
+        type: object
+        required: [code, message]
+        properties:
+          code:
+            type: string
+          message:
+            type: string

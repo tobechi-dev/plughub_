@@ -1,0 +1,92 @@
+openapi: 3.1.0
+
+info:
+  title: Email Capability
+  version: 0.1.0
+  description: |
+    A uniform interface for sending transactional emails and inspecting
+    their delivery lifecycle.
+
+    Providers that implement this capability must expose these operations
+    with the same request and response shapes. This allows applications to
+    swap providers without changing code.
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: http://localhost:8787
+    description: Local development
+
+tags:
+  - name: Emails
+    description: Send and inspect emails
+
+paths:
+  /emails:
+    post:
+      operationId: sendEmail
+      summary: Send a single email
+      tags: [Emails]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/$defs/SendEmailInput'
+      responses:
+        '202':
+          description: Email accepted for delivery
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/$defs/SendEmailResult'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/$defs/Error'
+        '422':
+          description: Unprocessable email
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/$defs/Error'
+        '500':
+          description: Provider error
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/$defs/Error'
+
+  /emails/{id}:
+    get:
+      operationId: getEmailStatus
+      summary: Get the current status of a sent email
+      tags: [Emails]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The email's current state
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/$defs/EmailRecord'
+        '404':
+          description: Unknown email
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/$defs/Error'
+        '500':
+          description: Provider error
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/$defs/Error'

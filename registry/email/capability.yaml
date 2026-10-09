@@ -8,10 +8,15 @@ status: experimental
 contracts:
   - type: openapi
     path: ./openapi.yaml
+  - type: asyncapi
+    path: ./asyncapi.yaml
 exports:
   - name: sendEmail
     description: Send a single transactional email.
     signature: "(input: SendEmailInput) => Promise<SendEmailResult>"
+  - name: getEmailStatus
+    description: Retrieve the current status of a sent email.
+    signature: "(id: string) => Promise<EmailRecord>"
 tags:
   - communication
   - transactional
