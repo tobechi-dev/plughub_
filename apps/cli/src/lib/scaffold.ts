@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
+import { copyFile, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 import type { CapabilityManifest, ProviderManifest } from '@plughub/core'
 
@@ -24,6 +24,7 @@ export interface ScaffoldOptions {
   targetDir: string
   capability: CapabilityManifest
   provider: ProviderManifest
+  force?: boolean
 }
 
 export interface ScaffoldResult {
@@ -32,8 +33,21 @@ export interface ScaffoldResult {
   dependencies: string[]
 }
 
+export class ScaffoldError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'ScaffoldError'
+  }
+}
+
 export async function scaffoldProvider(options: ScaffoldOptions): Promise<ScaffoldResult> {
-  const { providerDir, targetDir, capability, provider } = options
+  const { providerDir, targetDir, capability, provider, force = false } = options
+
+  if (!force && (await pathExists(targetDir))) {
+    throw new ScaffoldError(
+      `${targetDir} already exists.\nRemove it first, or re-run with --force to overwrite.`,
+    )
+  }
 
   await mkdir(targetDir, { recursive: true })
 
@@ -53,6 +67,15 @@ export async function scaffoldProvider(options: ScaffoldOptions): Promise<Scaffo
   filesCopied.push('backkit.json')
 
   return { targetDir, filesCopied, dependencies }
+}
+
+async function pathExists(path: string): Promise<boolean> {
+  try {
+    await stat(path)
+    return true
+  } catch {
+    return false
+  }
 }
 
 async function copyDirectory(source: string, target: string, collected: string[]): Promise<void> {

@@ -1,11 +1,12 @@
 import { join, resolve } from 'node:path'
-import type { Command } from 'commander'
 import type { ProviderManifest } from '@plughub/core'
-import { findRegistryRoot, loadCapabilities, type CapabilitySummary } from '../lib/registry.js'
-import { scaffoldProvider, type ScaffoldResult } from '../lib/scaffold.js'
+import type { Command } from 'commander'
+import { type CapabilitySummary, findRegistryRoot, loadCapabilities } from '../lib/registry.js'
+import { ScaffoldError, type ScaffoldResult, scaffoldProvider } from '../lib/scaffold.js'
 
 interface AddOptions {
   provider?: string
+  force?: boolean
   json?: boolean
 }
 
@@ -14,6 +15,7 @@ export function registerAddCommand(program: Command): void {
     .command('add <capability>')
     .description('Add a capability to the current project')
     .option('--provider <id>', 'Provider to use when multiple are available')
+    .option('--force', 'Overwrite the target directory if it already exists')
     .option('--json', 'Output as JSON')
     .action(async (capabilityId: string, options: AddOptions) => {
       await runAdd(capabilityId, options)
@@ -41,12 +43,21 @@ async function runAdd(capabilityId: string, options: AddOptions): Promise<void> 
   const targetDir = resolve(process.cwd(), 'backend', capability.manifest.id)
   const providerDir = join(registryRoot, capability.manifest.id, 'providers', provider.id)
 
-  const result = await scaffoldProvider({
-    providerDir,
-    targetDir,
-    capability: capability.manifest,
-    provider,
-  })
+  let result: ScaffoldResult
+  try {
+    result = await scaffoldProvider({
+      providerDir,
+      targetDir,
+      capability: capability.manifest,
+      provider,
+      force: options.force,
+    })
+  } catch (error) {
+    if (error instanceof ScaffoldError) {
+      fail(error.message)
+    }
+    throw error
+  }
 
   if (options.json) {
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`)
