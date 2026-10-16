@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { CapabilityManifest, ProviderManifest } from '@plughub/core'
@@ -104,5 +104,19 @@ describe('scaffoldProvider', () => {
     const result = await scaffoldProvider({ providerDir, targetDir, capability, provider })
     expect(result.dependencies).toContain('hono@^4.6.14')
     expect(result.dependencies).toContain('zod@^3.23.8')
+  })
+
+  it('throws if the target directory already exists', async () => {
+    await scaffoldProvider({ providerDir, targetDir, capability, provider })
+    await expect(
+      scaffoldProvider({ providerDir, targetDir, capability, provider }),
+    ).rejects.toThrow(/already exists/)
+  })
+
+  it('overwrites the target directory when force is true', async () => {
+    await scaffoldProvider({ providerDir, targetDir, capability, provider })
+    await expect(
+      scaffoldProvider({ providerDir, targetDir, capability, provider, force: true }),
+    ).resolves.toBeDefined()
   })
 })

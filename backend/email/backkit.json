@@ -1,0 +1,7 @@
+{
+  "capability": "email",
+  "capabilityVersion": "0.1.0",
+  "provider": "smtp",
+  "providerVersion": "0.1.0",
+  "installedAt": "2026-10-10T15:43:28.256Z"
+}
