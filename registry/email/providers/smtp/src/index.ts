@@ -1,9 +1,6 @@
-export { createEmailService, type EmailService } from './lib.js'
 export { createAdapter, type EmailAdapter } from './adapter.js'
-export { createServer } from './server.js'
-export { createNodemailerTransport } from './transports/nodemailer.js'
-export { createInMemoryStore, type EmailStore } from './store.js'
 export { loadConfig, type SmtpConfig } from './config.js'
+export { createEmailService, type EmailService } from './lib.js'
 export type {
   Attachment,
   EmailAddress,
@@ -12,3 +9,6 @@ export type {
   SendEmailInput,
   SendEmailResult,
 } from './schemas.js'
+export { createServer } from './server.js'
+export { createInMemoryStore, type EmailStore } from './store.js'
+export { createNodemailerTransport } from './transports/nodemailer.js'

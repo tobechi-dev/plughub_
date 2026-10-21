@@ -1,0 +1,42 @@
+schemaVersion: "1"
+kind: provider
+id: smtp
+capability: email
+version: 0.1.0
+name: SMTP
+description: Send emails through any SMTP server.
+status: experimental
+selfHosted: true
+managed: false
+language: typescript
+config:
+  SMTP_HOST:
+    type: string
+    required: true
+    description: SMTP server hostname.
+  SMTP_PORT:
+    type: number
+    required: true
+    description: SMTP server port.
+    default: 587
+  SMTP_USER:
+    type: string
+    required: true
+    description: SMTP username.
+  SMTP_PASSWORD:
+    type: string
+    required: true
+    description: SMTP password.
+    secret: true
+  SMTP_SECURE:
+    type: boolean
+    required: false
+    description: Use TLS on connect.
+    default: false
+deploy:
+  type: process
+  notes: |
+    Runs as a Node process. The bundled compose file starts a local
+    Mailpit instance for development only — production SMTP servers
+    are external.
+contractTest: ./tests/contract.test.ts
