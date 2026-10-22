@@ -1,0 +1,22 @@
+schemaVersion: "1"
+kind: provider
+id: resend
+capability: email
+version: 0.1.0
+name: Resend
+description: Send emails via Resend's HTTP API.
+status: experimental
+selfHosted: false
+managed: true
+language: typescript
+config:
+  RESEND_API_KEY:
+    type: string
+    required: true
+    description: Resend API key.
+    secret: true
+deploy:
+  type: process
+  notes: |
+    Runs as a Node process. No local SMTP server required.
+contractTest: ./tests/contract.test.ts

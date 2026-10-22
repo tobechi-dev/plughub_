@@ -3,23 +3,23 @@ import { createAdapter } from './adapter.js'
 import { loadConfig } from './config.js'
 import { createServer } from './server.js'
 import { createInMemoryStore } from './store.js'
-import { createNodemailerTransport } from './transports/nodemailer.js'
+import { createResendTransport } from './transports/resend.js'
 
 const PORT = Number(process.env.PORT ?? 8787)
 
 async function main(): Promise<void> {
   const config = loadConfig()
-  const transport = createNodemailerTransport(config)
+  const transport = createResendTransport(config)
   const store = createInMemoryStore()
   const adapter = createAdapter(transport, store)
   const app = createServer(adapter)
 
   serve({ fetch: app.fetch, port: PORT }, (info) => {
-    console.log(`smtp provider listening on http://localhost:${info.port}`)
+    console.log(`resend provider listening on http://localhost:${info.port}`)
   })
 }
 
 main().catch((error) => {
-  console.error('Failed to start smtp provider:', error)
+  console.error('Failed to start resend provider:', error)
   process.exit(1)
 })
