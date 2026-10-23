@@ -1,9 +1,19 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3'
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import type { S3Config } from './config.js'
 
 export interface StorageService {
-  uploadFile(bucket: string, key: string, body: Buffer | Uint8Array, contentType?: string): Promise<void>
+  uploadFile(
+    bucket: string,
+    key: string,
+    body: Buffer | Uint8Array,
+    contentType?: string,
+  ): Promise<void>
   getDownloadUrl(bucket: string, key: string): Promise<string>
   deleteFile(bucket: string, key: string): Promise<void>
 }
@@ -27,7 +37,7 @@ export function createStorageService(config: S3Config): StorageService {
           Key: key,
           Body: body,
           ContentType: contentType,
-        })
+        }),
       )
     },
 
@@ -42,7 +52,7 @@ export function createStorageService(config: S3Config): StorageService {
         new DeleteObjectCommand({
           Bucket: bucket,
           Key: key,
-        })
+        }),
       )
     },
   }

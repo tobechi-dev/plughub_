@@ -2,12 +2,15 @@ import { describe, expect, it, vi } from 'vitest'
 import { createEmailService } from '../src/lib.js'
 
 // Mock global fetch
-vi.stubGlobal('fetch', vi.fn(async () => {
-  return new Response(JSON.stringify({ id: 'fake-resend-id' }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  })
-}))
+vi.stubGlobal(
+  'fetch',
+  vi.fn(async () => {
+    return new Response(JSON.stringify({ id: 'fake-resend-id' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }),
+)
 
 const config = {
   apiKey: 're_test_key',

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createStorageService } from '../src/lib.js'
 
 // 1. Hoist the mock variables so they are available inside vi.mock
