@@ -18,7 +18,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): S3Config {
   })
 
   if (!result.success) {
-    const issues = result.error.issues.map((i) => `  - ${i.path.join('.')}: ${i.message}`).join('\n')
+    const issues = result.error.issues
+      .map((i) => `  - ${i.path.join('.')}: ${i.message}`)
+      .join('\n')
     throw new Error(`Invalid S3 configuration:\n${issues}`)
   }
 
