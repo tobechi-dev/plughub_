@@ -1,0 +1,20 @@
+schemaVersion: "1"
+kind: capability
+id: storage
+version: 0.1.0
+name: Storage
+description: Store and retrieve files from object storage.
+status: experimental
+contracts:
+  - type: openapi
+    path: ./openapi.yaml
+exports:
+  - name: uploadFile
+    description: Upload a file to storage.
+  - name: getDownloadUrl
+    description: Get a temporary URL to download a file.
+  - name: deleteFile
+    description: Delete a file.
+tags:
+  - files
+  - media
