@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: Storage Capability
+  version: 0.1.0
+  description: A uniform interface for object storage.
+paths:
+  /buckets/{bucket}/objects:
+    post:
+      operationId: uploadFile
+      summary: Upload a file
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [key, file]
+              properties:
+                key:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Uploaded successfully
+  /buckets/{bucket}/objects/{key}:
+    get:
+      operationId: getDownloadUrl
+      summary: Get a presigned URL to download a file
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema: { type: string }
+        - name: key
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Returns a presigned URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url: { type: string }
+    delete:
+      operationId: deleteFile
+      summary: Delete a file
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema: { type: string }
+        - name: key
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Deleted successfully
