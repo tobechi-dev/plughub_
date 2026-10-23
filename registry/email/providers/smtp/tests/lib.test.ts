@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
 import { createEmailService } from '../src/lib.js'
-import { createFakeTransport } from './helpers/fake-transport.js'
 
 // The service builds its own transport via nodemailer. To keep the test
 // hermetic we mock the nodemailer module to return a fake transport.
