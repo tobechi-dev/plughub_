@@ -19,6 +19,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@clack/prompts": "^1.8.1",
     "@plughub/core": "workspace:*",
     "commander": "^12.1.0"
   },
