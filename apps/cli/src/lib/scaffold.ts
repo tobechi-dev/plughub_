@@ -54,6 +54,14 @@ export async function scaffoldProvider(options: ScaffoldOptions): Promise<Scaffo
   const filesCopied: string[] = []
   await copyDirectory(providerDir, targetDir, filesCopied)
 
+  const envExamplePath = join(targetDir, '.env.example')
+  const envPath = join(targetDir, '.env')
+
+  if ((await pathExists(envExamplePath)) && !(await pathExists(envPath))) {
+    await copyFile(envExamplePath, envPath)
+    filesCopied.push(relative(process.cwd(), envPath))
+  }
+
   const dependencies = await readProviderDependencies(providerDir)
 
   const backkitJson = {

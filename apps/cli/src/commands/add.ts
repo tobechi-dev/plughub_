@@ -1,6 +1,9 @@
 import { join, resolve } from 'node:path'
 import type { ProviderManifest } from '@plughub/core'
+import { confirm, isCancel } from '@clack/prompts'
 import type { Command } from 'commander'
+import { installDependencies } from '../lib/install.js'
+import { detectPackageManager } from '../lib/pm.js'
 import { type CapabilitySummary, findRegistryRoot, loadCapabilities } from '../lib/registry.js'
 import { ScaffoldError, type ScaffoldResult, scaffoldProvider } from '../lib/scaffold.js'
 
@@ -8,6 +11,7 @@ interface AddOptions {
   provider?: string
   force?: boolean
   json?: boolean
+  install?: boolean // Commander maps --no-install to this being false
 }
 
 export function registerAddCommand(program: Command): void {
@@ -16,6 +20,7 @@ export function registerAddCommand(program: Command): void {
     .description('Add a capability to the current project')
     .option('--provider <id>', 'Provider to use when multiple are available')
     .option('--force', 'Overwrite the target directory if it already exists')
+    .option('--no-install', 'Skip installing dependencies automatically')
     .option('--json', 'Output as JSON')
     .action(async (capabilityId: string, options: AddOptions) => {
       await runAdd(capabilityId, options)
@@ -53,9 +58,7 @@ async function runAdd(capabilityId: string, options: AddOptions): Promise<void> 
       force: options.force,
     })
   } catch (error) {
-    if (error instanceof ScaffoldError) {
-      fail(error.message)
-    }
+    if (error instanceof ScaffoldError) fail(error.message)
     throw error
   }
 
@@ -64,7 +67,39 @@ async function runAdd(capabilityId: string, options: AddOptions): Promise<void> 
     return
   }
 
-  printSuccess(capability, provider, result)
+  let didInstall = false
+
+  // Auto-install logic with interactive prompt
+  if (options.install !== false && result.dependencies.length > 0) {
+    const pm = await detectPackageManager(process.cwd())
+
+    // Add a newline for breathing room before the prompt
+    process.stdout.write('\n')
+
+    const shouldInstall = await confirm({
+      message: `Install required dependencies using ${pm}?`,
+      initialValue: true,
+    })
+
+    if (isCancel(shouldInstall)) {
+      process.stderr.write('\nOperation cancelled.\n')
+      process.exit(0)
+    }
+
+    if (shouldInstall) {
+      // Add a newline so the spinner starts cleanly
+      process.stdout.write('\n')
+      try {
+        await installDependencies(pm, result.targetDir, result.dependencies)
+        didInstall = true
+      } catch (error) {
+        process.stderr.write(`\n⚠️ Failed to auto-install dependencies: ${String(error)}\n`)
+        process.stderr.write('You can install them manually later.\n')
+      }
+    }
+  }
+
+  printSuccess(capability, provider, result, didInstall)
 }
 
 function pickProvider(capability: CapabilitySummary, requestedId?: string): ProviderManifest {
@@ -81,12 +116,8 @@ function pickProvider(capability: CapabilitySummary, requestedId?: string): Prov
   }
 
   const providers = capability.providers
-  if (providers.length === 0) {
-    fail(`capability "${capability.manifest.id}" has no providers yet.`)
-  }
-  if (providers.length === 1) {
-    return providers[0] as ProviderManifest
-  }
+  if (providers.length === 0) fail(`capability "${capability.manifest.id}" has no providers yet.`)
+  if (providers.length === 1) return providers[0] as ProviderManifest
 
   const available = providers.map((p) => p.id).join(', ')
   fail(
@@ -96,8 +127,8 @@ function pickProvider(capability: CapabilitySummary, requestedId?: string): Prov
 }
 
 function fail(message: string, hint?: string): never {
-  process.stderr.write(`error: ${message}\n`)
-  if (hint) process.stderr.write(`${hint}\n`)
+  process.stderr.write(`\nerror: ${message}\n`)
+  if (hint) process.stderr.write(`${hint}\n\n`)
   process.exit(1)
 }
 
@@ -105,32 +136,37 @@ function printSuccess(
   capability: CapabilitySummary,
   provider: ProviderManifest,
   result: ScaffoldResult,
+  didInstall: boolean,
 ): void {
   const relativeTarget = result.targetDir.replace(`${process.cwd()}/`, './')
   const configEntries = Object.entries(provider.config)
 
-  process.stdout.write(`Added ${capability.manifest.id} (${provider.id}) to ${relativeTarget}\n\n`)
-  process.stdout.write(`  Files copied:   ${result.filesCopied.length}\n`)
-  process.stdout.write(`  Config vars:    ${configEntries.length}\n\n`)
+  // Spacious header
+  process.stdout.write(`\n\n✨ Added ${capability.manifest.id} (${provider.id}) to ${relativeTarget}\n`)
+  process.stdout.write(`────────────────────────────────────────────────────────\n\n`)
 
-  process.stdout.write('Next steps:\n\n')
+  let step = 1
 
-  if (result.dependencies.length > 0) {
-    process.stdout.write('  1. Install dependencies in your project:\n\n')
+  if (!didInstall && result.dependencies.length > 0) {
+    process.stdout.write(`  ${step}. Install dependencies in your project:\n\n`)
     process.stdout.write(`       pnpm add ${result.dependencies.join(' ')}\n\n`)
+    step++
   }
 
   if (configEntries.length > 0) {
-    process.stdout.write('  2. Set required environment variables:\n\n')
+    process.stdout.write(
+      `  ${step}. Set required environment variables in ${relativeTarget}/.env:\n\n`,
+    )
     for (const [key, field] of configEntries) {
       const tags: string[] = [field.type]
       if (field.type === 'string' && field.secret) tags.push('secret')
       if (field.required === false) tags.push('optional')
       process.stdout.write(`       ${key.padEnd(20)} ${tags.join(', ')}\n`)
     }
-    process.stdout.write(`\n     See ${relativeTarget}/.env.example\n\n`)
+    process.stdout.write('\n')
+    step++
   }
 
-  process.stdout.write('  3. Start the provider:\n\n')
-  process.stdout.write(`       cd ${relativeTarget} && pnpm dev\n`)
+  process.stdout.write(`  ${step}. Start the provider:\n\n`)
+  process.stdout.write(`       cd ${relativeTarget} && pnpm dev\n\n`)
 }
