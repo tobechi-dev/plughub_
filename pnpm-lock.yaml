@@ -125,8 +125,8 @@ importers:
         specifier: ^4.6.14
         version: 4.13.13
       nodemailer:
-        specifier: ^6.9.16
-        version: 6.10.1
+        specifier: ^10.1.4
+        version: 10.1.4
       zod:
         specifier: ^3.23.8
         version: 3.25.76
@@ -197,8 +197,8 @@ importers:
         specifier: ^4.6.14
         version: 4.13.13
       nodemailer:
-        specifier: ^6.9.16
-        version: 6.10.1
+        specifier: ^10.1.4
+        version: 10.1.4
       zod:
         specifier: ^3.23.8
         version: 3.25.76
@@ -2142,9 +2142,9 @@ packages:
     resolution: {integrity: sha512-OmO8+GM1JUZqXET720VrJCwkjUCXmCMQm0Z3UDDRbfNLHS4NEAvY60j5jiFv0tkKw2PNNlqOLhahVmwJIOLDIQ==}
     engines: {node: '>=18'}
 
-  nodemailer@6.10.1:
-    resolution: {integrity: sha512-Z+iLaBGVaSjbIzQ4pX6XV41HrooLsQ10ZWPUehGmuantvzWoDVBnmsdUcOIDM1t+yPor5pDhVlDESgOMEGxhHA==}
-    engines: {node: '>=6.0.0'}
+  nodemailer@10.1.4:
+    resolution: {integrity: sha512-EsMnOR2oRv4LGnWvHgcVYkkQ4O2j8KO4WTw6l+PHR4sOXo8SAgIraxtEnGDmotjbhv0hDsu3IuDIFZm8iXwO4A==}
+    engines: {node: '>=20.0.0'}
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
@@ -4399,7 +4399,7 @@ snapshots:
 
   node-releases@2.0.60: {}
 
-  nodemailer@6.10.1: {}
+  nodemailer@10.1.4: {}
 
   object-inspect@1.13.4: {}
 
