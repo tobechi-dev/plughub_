@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import type { CapabilityManifest, ProviderManifest } from '@plughub/core'
+import type { CapabilityManifest, ProviderManifest } from '@plughub_/core'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { scaffoldProvider } from '../src/lib/scaffold.js'
 
@@ -54,7 +54,7 @@ beforeEach(async () => {
   await writeFile(
     join(providerDir, 'package.json'),
     JSON.stringify({
-      name: '@plughub/provider-email-smtp',
+      name: '@plughub_/provider-email-smtp',
       version: '0.0.0',
       dependencies: { hono: '^4.6.14', zod: '^3.23.8' },
     }),

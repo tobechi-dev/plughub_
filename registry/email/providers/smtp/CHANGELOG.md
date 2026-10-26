@@ -1,4 +1,4 @@
-# @plughub/provider-email-smtp
+# @plughub_/provider-email-smtp
 
 ## 0.1.0
 

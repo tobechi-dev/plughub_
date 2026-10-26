@@ -53,7 +53,7 @@ If you want to add a new provider (e.g., SendGrid for Email, or GCS for Storage)
 5. Ensure the new provider passes the contract tests:
 
    ```bash
-   pnpm --filter @plughub/provider-email-sendgrid test
+   pnpm --filter @plughub_/provider-email-sendgrid test
    ```
 
 ### Adding a New Capability

@@ -1,6 +1,6 @@
 import { join, resolve } from 'node:path'
 import { confirm, isCancel } from '@clack/prompts'
-import type { ProviderManifest } from '@plughub/core'
+import type { ProviderManifest } from '@plughub_/core'
 import type { Command } from 'commander'
 import { installDependencies } from '../lib/install.js'
 import { detectPackageManager } from '../lib/pm.js'

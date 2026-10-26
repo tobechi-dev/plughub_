@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^1.8.1",
-    "@plughub/core": "workspace:*",
+    "@plughub_/core": "workspace:*",
     "commander": "^15.0.0"
   },
   "devDependencies": {

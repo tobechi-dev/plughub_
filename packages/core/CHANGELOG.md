@@ -1,4 +1,4 @@
-# @plughub/core
+# @plughub_/core
 
 ## 0.1.1
 
