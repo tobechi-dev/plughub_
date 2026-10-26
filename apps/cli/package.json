@@ -1,8 +1,17 @@
 {
   "name": "backkit",
   "version": "0.0.0",
-  "private": true,
-  "description": "Plughub CLI — add pluggable backend services to your app",
+  "description": "Add pluggable backend services to your app.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tobechi-dev/plughub_.git"
+  },
+  "homepage": "https://github.com/tobechi-dev/plughub_#readme",
+  "bugs": {
+    "url": "https://github.com/tobechi-dev/plughub_/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "Tobechukwu Ejiofor",
   "type": "module",
   "bin": {
     "backkit": "./dist/index.js"
@@ -10,6 +19,16 @@
   "main": "./dist/index.js",
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "backend",
+    "cli",
+    "scaffolding",
+    "email",
+    "storage",
+    "s3",
+    "resend",
+    "openapi"
   ],
   "scripts": {
     "build": "tsc && node scripts/copy-registry.js",
