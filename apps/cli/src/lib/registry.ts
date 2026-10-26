@@ -1,6 +1,7 @@
 import type { Dirent } from 'node:fs'
 import { readdir, stat } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { type CapabilityManifest, type ProviderManifest, parseManifestFile } from '@plughub/core'
 
 export interface CapabilitySummary {
@@ -17,21 +18,37 @@ export interface CapabilitySummary {
  *      that contains at least one capability manifest.
  */
 export async function findRegistryRoot(startDir: string = process.cwd()): Promise<string | null> {
+  // 1. Check env var
   const fromEnv = process.env.BACKKIT_REGISTRY
   if (fromEnv) {
     const resolved = resolve(fromEnv)
     if (await isRegistryDir(resolved)) return resolved
   }
 
+  // 2. Walk up from current directory (for monorepo dev)
   let current = resolve(startDir)
   while (true) {
     const candidate = join(current, 'registry')
     if (await isRegistryDir(candidate)) return candidate
 
     const parent = dirname(current)
-    if (parent === current) return null
+    if (parent === current) break // Reached filesystem root
     current = parent
   }
+
+  // 3. Fall back to bundled registry (for NPM package usage)
+  const currentFilePath = fileURLToPath(import.meta.url)
+  const currentDir = dirname(currentFilePath)
+
+  // In the built package, this file is at dist/lib/registry.js
+  // The bundled registry is at dist/registry, so we only go up 1 level.
+  const bundledRegistry = join(currentDir, '..', 'registry')
+
+  if (await isRegistryDir(bundledRegistry)) {
+    return bundledRegistry
+  }
+
+  return null
 }
 
 async function isRegistryDir(dir: string): Promise<boolean> {
