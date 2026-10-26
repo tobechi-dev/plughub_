@@ -30,7 +30,7 @@ export const SendEmailInputSchema = z.object({
   subject: z.string().min(1),
   text: z.string().optional(),
   html: z.string().optional(),
-  headers: z.record(z.string()).optional(),
+  headers: z.record(z.string(), z.string()).optional(),
   attachments: z.array(AttachmentSchema).optional(),
   tags: z.array(z.string()).optional(),
 })
