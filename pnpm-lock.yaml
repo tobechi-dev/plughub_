@@ -32,7 +32,7 @@ importers:
       '@clack/prompts':
         specifier: ^1.8.1
         version: 1.8.1
-      '@plughub/core':
+      '@plughub_/core':
         specifier: workspace:*
         version: link:../../packages/core
       commander:

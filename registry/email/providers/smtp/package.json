@@ -1,6 +1,6 @@
 {
-  "name": "@plughub/provider-email-smtp",
-  "version": "0.1.1",
+  "name": "@plughub_/provider-email-smtp",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",

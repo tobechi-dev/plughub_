@@ -1,4 +1,4 @@
-# @plughub/provider-storage-s3
+# @plughub_/provider-storage-s3
 
 ## 0.1.0
 

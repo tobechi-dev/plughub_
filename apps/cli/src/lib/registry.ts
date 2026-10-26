@@ -2,7 +2,7 @@ import type { Dirent } from 'node:fs'
 import { readdir, stat } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { type CapabilityManifest, type ProviderManifest, parseManifestFile } from '@plughub/core'
+import { type CapabilityManifest, type ProviderManifest, parseManifestFile } from '@plughub_/core'
 
 export interface CapabilitySummary {
   manifest: CapabilityManifest

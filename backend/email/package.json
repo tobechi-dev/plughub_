@@ -1,5 +1,5 @@
 {
-  "name": "@plughub/provider-email-smtp",
+  "name": "@plughub_/provider-email-smtp",
   "version": "0.0.0",
   "private": true,
   "type": "module",

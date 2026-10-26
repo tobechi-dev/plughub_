@@ -1,6 +1,6 @@
 import { copyFile, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
-import type { CapabilityManifest, ProviderManifest } from '@plughub/core'
+import type { CapabilityManifest, ProviderManifest } from '@plughub_/core'
 
 const EXCLUDED_NAMES = new Set([
   'node_modules',

@@ -1,5 +1,5 @@
 {
-  "name": "@plughub/core",
+  "name": "@plughub_/core",
   "version": "0.1.1",
   "description": "Core schemas and manifest parsing for Plughub.",
   "repository": {
