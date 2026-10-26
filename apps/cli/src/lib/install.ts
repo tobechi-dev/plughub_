@@ -5,7 +5,7 @@ import type { PackageManager } from './pm.js'
 export function installDependencies(
   pm: PackageManager,
   cwd: string,
-  dependencies: string[]
+  dependencies: string[],
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     if (dependencies.length === 0) return resolve()
@@ -27,9 +27,11 @@ export function installDependencies(
     child.stdout.on('data', (data) => {
       const text = data.toString()
       // Look for the "Progress: resolved X, reused Y..." line from pnpm
-      const match = text.match(/Progress: resolved (\d+), reused (\d+), downloaded (\d+), added (\d+)/)
+      const match = text.match(
+        /Progress: resolved (\d+), reused (\d+), downloaded (\d+), added (\d+)/,
+      )
       if (match) {
-        const [, resolved, reused, downloaded, added] = match
+        const [, resolved, downloaded] = match
         lastStatus = `${resolved} resolved, ${downloaded} downloaded`
         s.message(`Installing dependencies... (${lastStatus})`)
       }

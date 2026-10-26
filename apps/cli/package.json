@@ -12,14 +12,15 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-registry.js",
+    "prepack": "pnpm build",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@clack/prompts": "^1.8.1",
+    "@clack/prompts": "^0.8.2",
     "@plughub/core": "workspace:*",
     "commander": "^12.1.0"
   },

@@ -1,6 +1,6 @@
 import { join, resolve } from 'node:path'
-import type { ProviderManifest } from '@plughub/core'
 import { confirm, isCancel } from '@clack/prompts'
+import type { ProviderManifest } from '@plughub/core'
 import type { Command } from 'commander'
 import { installDependencies } from '../lib/install.js'
 import { detectPackageManager } from '../lib/pm.js'
@@ -142,7 +142,9 @@ function printSuccess(
   const configEntries = Object.entries(provider.config)
 
   // Spacious header
-  process.stdout.write(`\n\n✨ Added ${capability.manifest.id} (${provider.id}) to ${relativeTarget}\n`)
+  process.stdout.write(
+    `\n\n✨ Added ${capability.manifest.id} (${provider.id}) to ${relativeTarget}\n`,
+  )
   process.stdout.write(`────────────────────────────────────────────────────────\n\n`)
 
   let step = 1
