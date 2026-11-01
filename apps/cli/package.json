@@ -1,6 +1,6 @@
 {
   "name": "backkit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Add pluggable backend services to your app.",
   "repository": {
     "type": "git",
@@ -20,6 +20,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "backend",
     "cli",
