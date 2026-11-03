@@ -1,6 +1,6 @@
 {
-  "name": "backkit",
-  "version": "0.1.0",
+  "name": "@plughub_/cli",
+  "version": "0.1.2",
   "description": "Add pluggable backend services to your app.",
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^1.8.1",
-    "@plughub_/core": "workspace:*",
+    "@plughub_/core": "^0.1.1",
     "commander": "^15.0.0"
   },
   "devDependencies": {
