@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
 import { registerAddCommand } from './commands/add.js'
+import { registerInitCommand } from './commands/init.js'
 import { registerListCommand } from './commands/list.js'
 
 const program = new Command()
@@ -12,6 +13,7 @@ program
 
 registerListCommand(program)
 registerAddCommand(program)
+registerInitCommand(program)
 
 program.parseAsync(process.argv).catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error)
